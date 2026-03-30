@@ -10,7 +10,7 @@ function App() {
 
   const fetchTodos = async () => {
     try {
-      const response = await axios.get('/api/todos');
+      const response = await axios.get('https://todo-app-mini-project-20223104.vercel.app/api/todos');
       setTodos(response.data);
     } catch (error) { console.error(error); }
   };
@@ -63,22 +63,22 @@ function App() {
 
   const addTodo = async () => {
     if (!newTodo.trim()) return;
-    await axios.post('/api/todos', { title: newTodo, createdAt: selectedDate });
+    await axios.post('https://todo-app-mini-project-20223104.vercel.app/api/todos', { title: newTodo, createdAt: selectedDate });
     setNewTodo(""); fetchTodos();
   };
 
   const toggleTodo = async (id, completed) => {
-    await axios.put(`/api/todos/${id}`, { completed: !completed });
+    await axios.put(`https://todo-app-mini-project-20223104.vercel.app/api/todos/${id}`, { completed: !completed });
     fetchTodos();
   };
 
   const toggleStar = async (id, starred) => {
-    await axios.put(`/api/todos/${id}`, { starred: !starred });
+    await axios.put(`https://todo-app-mini-project-20223104.vercel.app/api/todos/${id}`, { starred: !starred });
     fetchTodos();
   };
 
   const deleteTodo = async (id) => {
-    await axios.delete(`/api/todos/${id}`);
+    await axios.delete(`https://todo-app-mini-project-20223104.vercel.app/api/todos/${id}`);
     fetchTodos();
   };
 
