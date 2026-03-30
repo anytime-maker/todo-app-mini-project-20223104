@@ -10,14 +10,13 @@ function App() {
 
   const fetchTodos = async () => {
     try {
-      const response = await axios.get('https://todo-app-mini-project-20223104.vercel.app/api/todos');
+      const response = await axios.get('/api/todos'); // 깔끔한 상대 경로
       setTodos(response.data);
     } catch (error) { console.error(error); }
   };
 
   useEffect(() => { fetchTodos(); }, []);
 
-  // 보조 함수들
   const getMonthName = (dateStr) => new Date(dateStr).toLocaleString('en-US', { month: 'long' });
   const getDayOfWeek = (dateStr) => new Date(dateStr).toLocaleString('en-US', { weekday: 'short' });
   const getWeekOfMonth = (dateStr) => {
@@ -26,7 +25,6 @@ function App() {
     return Math.ceil((d.getDate() + firstDay) / 7);
   };
 
-  // 1. 필터링 및 날짜순 정렬
   const getProcessedTodos = () => {
     const now = new Date();
     const todayStr = now.toISOString().split('T')[0];
@@ -49,7 +47,6 @@ function App() {
 
   const processedTodos = getProcessedTodos();
 
-  // 2. 그룹화 및 그룹 내 별표 정렬
   const groupedTodos = processedTodos.reduce((groups, todo) => {
     let groupKey = todo.createdAt;
     if (activeFilter === "Month" || activeFilter === "Year") {
@@ -57,28 +54,28 @@ function App() {
     }
     if (!groups[groupKey]) groups[groupKey] = [];
     groups[groupKey].push(todo);
-    groups[groupKey].sort((a, b) => b.starred - a.starred); // 그룹 내 별표 우선
+    groups[groupKey].sort((a, b) => b.starred - a.starred); 
     return groups;
   }, {});
 
   const addTodo = async () => {
     if (!newTodo.trim()) return;
-    await axios.post('https://todo-app-mini-project-20223104.vercel.app/api/todos', { title: newTodo, createdAt: selectedDate });
+    await axios.post('/api/todos', { title: newTodo, createdAt: selectedDate }); // 깔끔한 상대 경로
     setNewTodo(""); fetchTodos();
   };
 
   const toggleTodo = async (id, completed) => {
-    await axios.put(`https://todo-app-mini-project-20223104.vercel.app/api/todos/${id}`, { completed: !completed });
+    await axios.put(`/api/todos/${id}`, { completed: !completed }); // 깔끔한 상대 경로
     fetchTodos();
   };
 
   const toggleStar = async (id, starred) => {
-    await axios.put(`https://todo-app-mini-project-20223104.vercel.app/api/todos/${id}`, { starred: !starred });
+    await axios.put(`/api/todos/${id}`, { starred: !starred }); // 깔끔한 상대 경로
     fetchTodos();
   };
 
   const deleteTodo = async (id) => {
-    await axios.delete(`https://todo-app-mini-project-20223104.vercel.app/api/todos/${id}`);
+    await axios.delete(`/api/todos/${id}`); // 깔끔한 상대 경로
     fetchTodos();
   };
 
